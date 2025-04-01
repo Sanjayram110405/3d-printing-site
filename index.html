@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ender 3 V3 KE - 3D Printing Service</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Ender 3 V3 KE 3D Printer</h1>
+    </header>
+    <section id="specifications">
+        <h2>Specifications</h2>
+        <ul>
+            <li><strong>Printing Technology:</strong> FDM</li>
+            <li><strong>Build Volume:</strong> 220*220*240mm</li>
+            <li><strong>Typical Printing Speed:</strong> 300mm/s</li>
+            <li><strong>Max. Printing Speed:</strong> 500mm/s</li>
+            <li><strong>Layer Height:</strong> 0.1-0.35mm</li>
+            <li><strong>Filament Diameter:</strong> 1.75mm</li>
+            <li><strong>Nozzle Temperature:</strong> ≤300℃</li>
+            <li><strong>Heatbed Temperature:</strong> ≤100℃</li>
+            <li><strong>File Transfer:</strong> USB drive, LAN, Creality Cloud APP</li>
+        </ul>
+    </section>
+    
+    <section id="upload-model">
+        <h2>Upload Your Model</h2>
+        <p>Upload your 3D model file (STL, OBJ, 3MF, AMF) to calculate dimensions, material usage, and cost.</p>
+        <input type="file" id="fileUpload" accept=".stl,.obj,.3mf,.amf">
+        <label for="material">Select Material:</label>
+        <select id="material">
+            <option value="PLA">PLA</option>
+            <option value="PETG">PETG</option>
+            <option value="ABS">ABS</option>
+            <option value="TPU">TPU(95A)</option>
+            <option value="ASA">ASA</option>
+        </select>
+        <label for="color">Select Color:</label>
+        <input type="color" id="color">
+        <label for="infill">Select Infill Percentage:</label>
+        <input type="range" id="infill" min="10" max="100" step="10" value="20">
+        <button onclick="calculatePrice()">Calculate Price</button>
+        <p id="priceOutput"></p>
+    </section>
+    
+    <script>
+        function calculatePrice() {
+            const materialPrices = {
+                PLA: 4.2, // Price per gram in INR
+                PETG: 5.0,
+                ABS: 5.8,
+                TPU: 6.5,
+                ASA: 7.2
+            };
+            
+            let material = document.getElementById("material").value;
+            let infill = document.getElementById("infill").value / 100;
+            
+            // Dummy values for volume and weight estimation
+            let modelVolume = 50; // cm³ (Replace with actual model volume calculation from CAD file)
+            let density = 1.24; // g/cm³ (Average for PLA, adjust based on material)
+            let weight = modelVolume * density * infill;
+            
+            let cost = weight * materialPrices[material];
+            document.getElementById("priceOutput").innerText = `Estimated Cost: ₹${cost.toFixed(2)} (Weight: ${weight.toFixed(2)}g)`;
+        }
+    </script>
+</body>
+</html>
